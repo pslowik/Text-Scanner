@@ -110,90 +110,36 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                //setContentView(R.layout.activity_paragon2);
             }
-
         });
-
     }
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private void dispatchTakePictureIntent() {
-        // in the method we are displaying an intent to capture our image.
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        // on below line we are calling a start activity
-        // for result method to get the image captured.
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
-
-   /*         // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }*/
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // calling on activity result method.
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            // on below line we are getting
-            // data from our bundles. .
-//1
+
             Bundle extras = data.getExtras();
-            imageBitmap = (Bitmap) extras.get("data");      //plik zdjecia
+            imageBitmap = (Bitmap) extras.get("data");
 
-
-            // below line is to set the
-            // image bitmap to our image.
-            img.setImageBitmap(imageBitmap);            //zdjecie wyswietlone
+            // image bitmap to image.
+            img.setImageBitmap(imageBitmap);           
 
             imguri = getImageUri(getApplicationContext(), imageBitmap);
-
-/*
-         //  if (resultCode == Activity.RESULT_OK) {
-                File f = new File(currentPhotoPath);
-                img.setImageURI(Uri.fromFile(f));
-                Log.d("imguri path", Uri.fromFile(f).toString());
-                imguri = Uri.fromFile(f);
-                try {
-                    imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imguri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.d("imguri path", "error try catch ");
-
-                }
-
-
-                upload(f.getName(), imguri);
-                     // Bundle extras = data.getExtras();
-                      //imageBitmap = (Bitmap) extras.get("data");      //plik zdjecia
-
-            }
-*/
-
         }
     }
 
     private void addImage() {
         File f = new File(String.valueOf(imguri));
         upload(f.getName(), imguri);
-
-
     }
 
     private void upload(String name, Uri contentUri){
@@ -212,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
                         String TempImageName = textview.getText().toString().trim();
                         Log.d("tag", "TempImageName is:" + TempImageName);
 
-                        //  progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
                         @SuppressWarnings("VisibleForTests")
                         UploadInfo imageUploadInfo = new UploadInfo(TempImageName, image.toString());//contentUri.toString());//taskSnapshot.getUploadSessionUri().toString());
@@ -221,10 +166,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("tag", "image upload is:" + image.toString());
 
                         databaseRef.child(ImageUploadId).setValue(imageUploadInfo);
-
                     }
                 });
-               // Toast.makeText(MainActivity.this, "upload complete", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -245,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 storageDir      /* directory */
         );
 
-        // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
@@ -259,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(FirebaseVisionText firebaseVisionText) {
                 // calling a method to process
-                // our text after extracting.
+                // text after extracting.
                 Log.d("tag", "success, img url is:" + firebaseVisionText);
 
                 processTxt(firebaseVisionText);
@@ -284,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             txt = txt + block.getText() + "<b>";
             Log.d("przetworzony text", txt);
 
-            textview.setText(txt.replace("<b>", "\n"));      //txt odczytany
+            textview.setText(txt.replace("<b>", "\n"));      //txt was read
         }
 
     }
@@ -294,18 +236,11 @@ public class MainActivity extends AppCompatActivity {
         Ref.putFile(imguri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                //progress.dismiss();
                 Toast.makeText(MainActivity.this, "Uploaded successfully", Toast.LENGTH_SHORT).show();
-
-                //Uri downloadUrl = taskSnapshot.getDownloadUrl(); /* Fetch url image */
-
-                //Picasso.with(getBaseContext()).load(imageUrl).into(imgFirebase);
-                /* use picasso to fetch url and display image */
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //progress.dismiss();
                 Toast.makeText(MainActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             });
@@ -337,6 +272,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return path;
     }
-
 }
 
