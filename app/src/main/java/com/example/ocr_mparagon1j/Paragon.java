@@ -15,11 +15,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -32,7 +30,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,11 +54,8 @@ public class Paragon extends AppCompatActivity {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     boolean flag = false;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("tag", "success, I'm in oncreate paragon");
-
         setContentView(R.layout.activity_paragon);
         btnBack = (Button) findViewById(R.id.btnback);
         databaseReference = FirebaseDatabase.getInstance().getReference("pictures");
@@ -72,10 +66,6 @@ public class Paragon extends AppCompatActivity {
         fromDate = (EditText) findViewById(R.id.fromDate);
         toDate = (EditText) findViewById(R.id.toDate);
         buttonOK = (Button) findViewById(R.id.buttonOK);
-
-
-
-        Log.d("data", "success I'm in: oncreate paragon");
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,28 +83,21 @@ public class Paragon extends AppCompatActivity {
                 String sTestFrom = fromDate.getText().toString();
                 String sTestTo = toDate.getText().toString();
                 Date arrDate = null, fD = null, tD = null;
-                /*Date date1 = format.parse(date1);
-                Date date2 = format.parse(date2);
-
-                if (date1.compareTo(date2) <= 0) {
-                    System.out.println("earlier");
-                }*/
+  
                 Log.d("tag","data filter: " + sTestFrom + "   " + sTestTo);
 
-                //DateFormat sdf = new SimpleDateFormat(format);
                 format.setLenient(false);
                 try {
                     format.parse(sTestFrom);
                     format.parse(sTestTo);
                 } catch (Exception error1) {
-                    Toast.makeText(Paragon.this, "Wprowadź poprawny format daty yyyy-MM-dd", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Paragon.this, "Set right format of date yyyy-MM-dd", Toast.LENGTH_SHORT).show();
                     error1.printStackTrace();
                     arrayListDate = (ArrayList<String>)arrayList.clone();
                     arrayParagonDataCopy = (ArrayList<ParagonData>)arrayParagonData.clone();
                     arrayAdapter = new ArrayAdapter<>(Paragon.this, android.R.layout.simple_list_item_1, arrayListDate);
                     listView.setAdapter(arrayAdapter);
                 }
-                //if( sTestFrom.matches("\\\\d{4}-\\\\d{2}-\\\\d{2}") && sTestTo.matches("\\\\d{4}-\\\\d{2}-\\\\d{2}")) {
                     try {
                         fD = format.parse(sTestFrom);
                         tD = format.parse(sTestTo);
@@ -137,10 +120,6 @@ public class Paragon extends AppCompatActivity {
                     Log.d("tag", "arrayParagonData.size():" + arrayParagonData.size());
                     arrayAdapter = new ArrayAdapter<>(Paragon.this, android.R.layout.simple_list_item_1, arrayListDate);
                     listView.setAdapter(arrayAdapter);
-            //    }
-            //    else {
-            //        Toast.makeText(Paragon.this, "Wprowadź poprawny format daty yyyy-MM-dd", Toast.LENGTH_SHORT).show();
-            //    }
             }
         });
 
