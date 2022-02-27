@@ -64,21 +64,6 @@ public class DetailsActivity2 extends AppCompatActivity {
 
             textDetails.setText(date);
 
-       /*     StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-            storageRef.child(imgUrl.substring(35)).getDownloadUrl()
-                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Log.d("tag", "The uri: " + uri);
-                            uri2 = uri;
-                            img.setImageURI(uri2);
-
-
-                        }
-                    });
-
-        */
-
             StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imgUrl.substring(35));
 
             final long ONE_MEGABYTE = 1024 * 1024;
@@ -93,10 +78,6 @@ public class DetailsActivity2 extends AppCompatActivity {
                 public void onFailure(@NonNull Exception exception) {
                 }
             });
-
-
-
-
         }
 
         btnDelete3.setOnClickListener(new View.OnClickListener() {
@@ -129,5 +110,4 @@ public class DetailsActivity2 extends AppCompatActivity {
             }
         });
     }
-
 }
