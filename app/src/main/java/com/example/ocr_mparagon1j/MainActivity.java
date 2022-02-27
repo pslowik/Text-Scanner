@@ -19,15 +19,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
-
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
@@ -35,7 +32,6 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -48,14 +44,11 @@ public class MainActivity extends AppCompatActivity {
     private ImageView img;
     private TextView textview;
     private Button snapBtn, detectBtn, addBtn, browseBtn;
-
     private Bitmap imageBitmap;
-
     StorageReference storageRef, mStorageRef;
     FirebaseDatabase database;
     DatabaseReference databaseRef;
     ProgressDialog progressDialog ;
-
     String currentPhotoPath;
     public Uri imguri;
 
@@ -66,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance("https://textscanner-5f31e-default-rtdb.europe-west1.firebasedatabase.app/");
         databaseRef = (DatabaseReference) database.getReference("pictures");
-
         img = (ImageView) findViewById(R.id.image);
         textview = (TextView) findViewById(R.id.text);
         textview.setMovementMethod(new ScrollingMovementMethod());
@@ -78,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
         detectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // calling a method to
-                // detect a text .
+                // calling method to detect text
                 if (img.getDrawable() != null)
                         detectTxt();
                 else
@@ -89,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         snapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // calling a method to capture our image.
+                // calling a method to capture image.
                 dispatchTakePictureIntent();
             }
         });
@@ -108,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Paragon.class);
                 startActivity(intent);
-               //setContentView(R.layout.activity_paragon2);
             }
         });
     }
@@ -200,8 +190,7 @@ public class MainActivity extends AppCompatActivity {
         detector.detectInImage(image).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
             @Override
             public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                // calling a method to process
-                // text after extracting.
+                // calling a method to process text after extracting.
                 Log.d("tag", "success, img url is:" + firebaseVisionText);
 
                 processTxt(firebaseVisionText);
@@ -228,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
 
             textview.setText(txt.replace("<b>", "\n"));      //txt was read
         }
-
     }
     private void addImage2() {
         StorageReference Ref = mStorageRef.child(System.currentTimeMillis()+"."+getExtension(imguri));
