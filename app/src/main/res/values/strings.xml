@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ocr_mParagon1j</string>
+    <string name="delete">Delete</string>
+    <string name="Back">Back</string>
+    <string name="receipts">Receipts</string>
+    <string name="from_yyyy_mm_dd">from yyyy-MM-dd</string>
+    <string name="to_yyyy_mm_dd">to yyyy-MM-dd</string>
+    <string name="filter_date">Filter date</string>
+</resources>
